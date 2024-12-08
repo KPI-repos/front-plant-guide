@@ -28,8 +28,6 @@ const PhotoPage = ({ photo }) => {
     }
   };
 
-  console.log(photo);
-
   return (
     <div className="mt-7">
       <div className="max-w-[600px] m-auto mb-4 p-4 border rounded-lg shadow-md bg-white">
@@ -115,11 +113,6 @@ const PhotoPage = ({ photo }) => {
         </Button>
       </form>
       {message && <p className="text-green-500 text-center mt-4">{message}</p>}
-      <div className="max-w-[600px] m-auto">
-        <Button className="mt-2 mb-7" variant="destructive">
-          Delete
-        </Button>
-      </div>
     </div>
   );
 };

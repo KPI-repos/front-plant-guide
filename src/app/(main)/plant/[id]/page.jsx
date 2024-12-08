@@ -1,11 +1,18 @@
-import { getPhotoById } from "@/app/api/Photo";
 import { getPlantById } from "@/app/api/Plant";
 import AboutPage from "@/components/screen/AboutPage";
 
 export default async function Page({ params }) {
   const id = (await params).id;
-  const fetchedPhotoById = await getPhotoById(id);
-  const fetchedPlantById = await getPlantById(id);
+  let fetchedPlantById;
 
-  return <AboutPage photo={fetchedPhotoById} plant={fetchedPlantById} />;
+  try {
+    fetchedPlantById = await getPlantById(id);
+    return <AboutPage plant={fetchedPlantById} />;
+  } catch (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-5xl">
+        Not Found
+      </div>
+    );
+  }
 }

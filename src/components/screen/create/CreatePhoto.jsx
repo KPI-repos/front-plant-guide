@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { updateTypeSeason } from "@/app/api/TypeSeason";
+import { addPhoto } from "@/app/api/Photo"; // Updated import for creating a photo
 import { useState } from "react";
 
-const TypeSeasonPage = ({ typeSeason }) => {
+const CreatePhoto = () => {
   const {
     control,
     handleSubmit,
@@ -17,36 +16,33 @@ const TypeSeasonPage = ({ typeSeason }) => {
 
   const onSubmit = async (data) => {
     try {
-      const { typeSeasonId, ...typeSeasonData } = data;
-      await updateTypeSeason(typeSeason.typeSeasonId, {
-        ...typeSeasonData,
-      });
-      setMessage("Type Season updated successfully!");
+      await addPhoto(data); // Call createPhoto instead of updatePhoto
+      setMessage("Photo created successfully!");
     } catch (error) {
-      console.error("Error updating type season:", error);
-      setMessage("Error updating type season. Please try again.");
+      console.error("Error creating photo:", error);
+      setMessage("Error creating photo. Please try again.");
     }
   };
 
   return (
     <div className="mt-7">
+      <h2 className="text-xl font-semibold text-center">Create New Photo</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-4 max-w-[600px] m-auto"
       >
         <div className="mb-4">
-          <Label htmlFor="typeSeasonId">Type Season ID</Label>
+          <Label htmlFor="author">Author</Label>
           <Controller
-            name="typeSeasonId"
-            disabled
+            name="author"
             control={control}
-            defaultValue={typeSeason.typeSeasonId}
-            rules={{ required: "Type Season ID is required" }}
+            defaultValue="" // Default value for new photo
+            rules={{ required: "Author is required" }}
             render={({ field }) => (
               <>
                 <input {...field} className="border rounded p-2 w-full" />
-                {errors.typeSeasonId && (
-                  <p className="text-red-500">{errors.typeSeasonId.message}</p>
+                {errors.author && (
+                  <p className="text-red-500">{errors.author.message}</p>
                 )}
               </>
             )}
@@ -54,17 +50,17 @@ const TypeSeasonPage = ({ typeSeason }) => {
         </div>
 
         <div className="mb-4">
-          <Label htmlFor="name">Type Season Name</Label>
+          <Label htmlFor="url">URL</Label>
           <Controller
-            name="name"
+            name="url"
             control={control}
-            defaultValue={typeSeason.name}
-            rules={{ required: "Type Season Name is required" }}
+            defaultValue="" // Default value for new photo
+            rules={{ required: "URL is required" }}
             render={({ field }) => (
               <>
                 <input {...field} className="border rounded p-2 w-full" />
-                {errors.name && (
-                  <p className="text-red-500">{errors.name.message}</p>
+                {errors.url && (
+                  <p className="text-red-500">{errors.url.message}</p>
                 )}
               </>
             )}
@@ -72,7 +68,7 @@ const TypeSeasonPage = ({ typeSeason }) => {
         </div>
 
         <Button type="submit" variant="default">
-          Save Changes
+          Create Photo
         </Button>
       </form>
       {message && <p className="text-green-500 text-center mt-4">{message}</p>}
@@ -80,4 +76,4 @@ const TypeSeasonPage = ({ typeSeason }) => {
   );
 };
 
-export default TypeSeasonPage;
+export default CreatePhoto;

@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { updateOrigin } from "@/app/api/Origin";
+import { addOrigin } from "@/app/api/Origin"; // Updated import for creating an origin
 import { useState } from "react";
 
-const OriginPage = ({ origin }) => {
+const CreateOrigin = () => {
   const {
     control,
     handleSubmit,
@@ -14,72 +13,31 @@ const OriginPage = ({ origin }) => {
   } = useForm();
 
   const [message, setMessage] = useState("");
-  console.log(origin);
 
   const onSubmit = async (data) => {
     try {
-      const { originId, countryId, plantId, ...originData } = data; // Added plantId to destructuring
-      await updateOrigin(origin.originId, {
-        ...originData,
-        countryId: parseInt(countryId), // Convert countryId to integer
-        plantId: parseInt(plantId), // Convert plantId to integer
-      });
-      setMessage("Origin updated successfully!");
+      await addOrigin(data); // Uncommented to call addOrigin with originData
+      setMessage("Origin created successfully!"); // Updated success message
     } catch (error) {
-      console.error("Error updating origin:", error);
-      setMessage("Error updating origin. Please try again.");
+      console.error("Error creating origin:", error); // Updated error message
+      setMessage("Error creating origin. Please try again."); // Updated error message
     }
   };
 
   return (
     <div className="mt-7">
+      <h2 className="text-xl font-semibold text-center">Create New Origin</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-4 max-w-[600px] m-auto"
       >
         <div className="mb-4">
-          <Label htmlFor="originId">Origin ID</Label>
+          <Label htmlFor="plantId">Plant ID</Label>
           <Controller
-            disabled
-            name="originId"
+            name="plantId"
             control={control}
-            defaultValue={origin.originId || ""}
-            rules={{ required: "Origin ID is required" }}
-            render={({ field }) => (
-              <>
-                <input {...field} className="border rounded p-2 w-full" />
-                {errors.originId && (
-                  <p className="text-red-500">{errors.originId.message}</p>
-                )}
-              </>
-            )}
-          />
-        </div>
-
-        <div className="mb-4">
-          <Label htmlFor="countryId">Country ID</Label>
-          <Controller
-            name="countryId"
-            control={control}
-            defaultValue={origin.countryId || ""}
-            render={({ field }) => (
-              <>
-                <input {...field} className="border rounded p-2 w-full" />
-                {errors.countryId && (
-                  <p className="text-red-500">{errors.countryId.message}</p>
-                )}
-              </>
-            )}
-          />
-        </div>
-
-        <div className="mb-4">
-          <Label htmlFor="plantId">Plant ID</Label>{" "}
-          {/* New label for plant ID */}
-          <Controller
-            name="plantId" // New name for plant ID
-            control={control}
-            defaultValue={origin.plantId || ""} // Set default value for plant ID
+            defaultValue="" // Set default value to avoid uncontrolled to controlled input warning
+            rules={{ required: "Plant ID is required" }}
             render={({ field }) => (
               <>
                 <input {...field} className="border rounded p-2 w-full" />
@@ -90,13 +48,29 @@ const OriginPage = ({ origin }) => {
             )}
           />
         </div>
-
+        <div className="mb-4">
+          <Label htmlFor="countryId">Country ID</Label>
+          <Controller
+            name="countryId"
+            control={control}
+            defaultValue="" // Set default value to avoid uncontrolled to controlled input warning
+            rules={{ required: "Country ID is required" }}
+            render={({ field }) => (
+              <>
+                <input {...field} className="border rounded p-2 w-full" />
+                {errors.countryId && (
+                  <p className="text-red-500">{errors.countryId.message}</p>
+                )}
+              </>
+            )}
+          />
+        </div>
         <div className="mb-4">
           <Label htmlFor="years">Years</Label>
           <Controller
             name="years"
             control={control}
-            defaultValue={origin.years}
+            defaultValue="" // Set default value to avoid uncontrolled to controlled input warning
             rules={{ required: "Years are required" }}
             render={({ field }) => (
               <>
@@ -110,7 +84,7 @@ const OriginPage = ({ origin }) => {
         </div>
 
         <Button type="submit" variant="default">
-          Save Changes
+          Create Origin
         </Button>
       </form>
       {message && <p className="text-green-500 text-center mt-4">{message}</p>}
@@ -118,4 +92,4 @@ const OriginPage = ({ origin }) => {
   );
 };
 
-export default OriginPage;
+export default CreateOrigin;

@@ -4,8 +4,16 @@ import ClimatePage from "@/components/screen/ClimatePage";
 
 export default async function Page({ params }) {
   const id = (await params).id;
-  const fetchedPhotoById = await getPhotoById(id);
-  const fetchedClimateById = await getClimateById(id);
+  let fetchedClimateById;
 
-  return <ClimatePage photo={fetchedPhotoById} climate={fetchedClimateById} />;
+  try {
+    fetchedClimateById = await getClimateById(id);
+    return <ClimatePage climate={fetchedClimateById} />;
+  } catch (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-5xl">
+        Not Found
+      </div>
+    );
+  }
 }

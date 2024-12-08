@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { updateSource } from "@/app/api/Source";
+import { addSource } from "@/app/api/Source"; // Updated import for creating a source
 import { useState } from "react";
 
-const SourcePage = ({ source }) => {
+const CreateSource = () => {
   const {
     control,
     handleSubmit,
@@ -17,48 +16,27 @@ const SourcePage = ({ source }) => {
 
   const onSubmit = async (data) => {
     try {
-      const { sourceId, ...sourceData } = data;
-      await updateSource(source.sourceId, {
-        ...sourceData,
-      });
-      setMessage("Source updated successfully!");
+      await addSource(data); // Call addSource to create a new source
+      setMessage("Source created successfully!");
     } catch (error) {
-      console.error("Error updating source:", error);
-      setMessage("Error updating source. Please try again.");
+      console.error("Error creating source:", error);
+      setMessage("Error creating source. Please try again.");
     }
   };
 
   return (
     <div className="mt-7">
+      <h2 className="text-xl font-semibold text-center">Create New Source</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-4 max-w-[600px] m-auto"
       >
         <div className="mb-4">
-          <Label htmlFor="sourceId">Source ID</Label>
-          <Controller
-            disabled
-            name="sourceId"
-            control={control}
-            defaultValue={source.sourceId} // Use sourceId from source or default to 3
-            rules={{ required: "Source ID is required" }}
-            render={({ field }) => (
-              <>
-                <input {...field} className="border rounded p-2 w-full" />
-                {errors.sourceId && (
-                  <p className="text-red-500">{errors.sourceId.message}</p>
-                )}
-              </>
-            )}
-          />
-        </div>
-
-        <div className="mb-4">
           <Label htmlFor="author">Author</Label>
           <Controller
             name="author"
             control={control}
-            defaultValue={source.author} // Use author from source or default to "Prof. Adam Smith"
+            defaultValue="" // Default value for new source
             rules={{ required: "Author is required" }}
             render={({ field }) => (
               <>
@@ -76,7 +54,7 @@ const SourcePage = ({ source }) => {
           <Controller
             name="title"
             control={control}
-            defaultValue={source.title} // Use title from source or default to "Medicinal Plants and Their Uses"
+            defaultValue="" // Default value for new source
             rules={{ required: "Title is required" }}
             render={({ field }) => (
               <>
@@ -94,7 +72,7 @@ const SourcePage = ({ source }) => {
           <Controller
             name="url"
             control={control}
-            defaultValue={source.url} // Use url from source or default to "http://medicinalplants.org"
+            defaultValue="" // Default value for new source
             rules={{ required: "URL is required" }}
             render={({ field }) => (
               <>
@@ -108,7 +86,7 @@ const SourcePage = ({ source }) => {
         </div>
 
         <Button type="submit" variant="default">
-          Save Changes
+          Create Source
         </Button>
       </form>
       {message && <p className="text-green-500 text-center mt-4">{message}</p>}
@@ -116,4 +94,4 @@ const SourcePage = ({ source }) => {
   );
 };
 
-export default SourcePage;
+export default CreateSource;

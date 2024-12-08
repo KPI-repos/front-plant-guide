@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { updateTypeSeason } from "@/app/api/TypeSeason";
+import { addSourcePlant } from "@/app/api/SourcePlant"; // Updated import for creating a source plant
 import { useState } from "react";
 
-const TypeSeasonPage = ({ typeSeason }) => {
+const CreateSourcePlant = () => {
   const {
     control,
     handleSubmit,
@@ -17,36 +16,35 @@ const TypeSeasonPage = ({ typeSeason }) => {
 
   const onSubmit = async (data) => {
     try {
-      const { typeSeasonId, ...typeSeasonData } = data;
-      await updateTypeSeason(typeSeason.typeSeasonId, {
-        ...typeSeasonData,
-      });
-      setMessage("Type Season updated successfully!");
+      await addSourcePlant(data); // Call addSourcePlant to create a new source plant
+      setMessage("Source Plant created successfully!");
     } catch (error) {
-      console.error("Error updating type season:", error);
-      setMessage("Error updating type season. Please try again.");
+      console.error("Error creating source plant:", error);
+      setMessage("Error creating source plant. Please try again.");
     }
   };
 
   return (
     <div className="mt-7">
+      <h2 className="text-xl font-semibold text-center">
+        Create New Source Plant
+      </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-4 max-w-[600px] m-auto"
       >
         <div className="mb-4">
-          <Label htmlFor="typeSeasonId">Type Season ID</Label>
+          <Label htmlFor="plantId">Plant ID</Label>
           <Controller
-            name="typeSeasonId"
-            disabled
+            name="plantId"
             control={control}
-            defaultValue={typeSeason.typeSeasonId}
-            rules={{ required: "Type Season ID is required" }}
+            defaultValue="" // Default value for new source plant
+            rules={{ required: "Plant ID is required" }}
             render={({ field }) => (
               <>
                 <input {...field} className="border rounded p-2 w-full" />
-                {errors.typeSeasonId && (
-                  <p className="text-red-500">{errors.typeSeasonId.message}</p>
+                {errors.plantId && (
+                  <p className="text-red-500">{errors.plantId.message}</p>
                 )}
               </>
             )}
@@ -54,17 +52,17 @@ const TypeSeasonPage = ({ typeSeason }) => {
         </div>
 
         <div className="mb-4">
-          <Label htmlFor="name">Type Season Name</Label>
+          <Label htmlFor="sourceId">Source ID</Label>
           <Controller
-            name="name"
+            name="sourceId"
             control={control}
-            defaultValue={typeSeason.name}
-            rules={{ required: "Type Season Name is required" }}
+            defaultValue="" // Default value for new source plant
+            rules={{ required: "Source ID is required" }}
             render={({ field }) => (
               <>
                 <input {...field} className="border rounded p-2 w-full" />
-                {errors.name && (
-                  <p className="text-red-500">{errors.name.message}</p>
+                {errors.sourceId && (
+                  <p className="text-red-500">{errors.sourceId.message}</p>
                 )}
               </>
             )}
@@ -72,7 +70,7 @@ const TypeSeasonPage = ({ typeSeason }) => {
         </div>
 
         <Button type="submit" variant="default">
-          Save Changes
+          Create Source Plant
         </Button>
       </form>
       {message && <p className="text-green-500 text-center mt-4">{message}</p>}
@@ -80,4 +78,4 @@ const TypeSeasonPage = ({ typeSeason }) => {
   );
 };
 
-export default TypeSeasonPage;
+export default CreateSourcePlant;

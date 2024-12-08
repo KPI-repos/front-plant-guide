@@ -3,7 +3,16 @@ import PhotoPage from "@/components/screen/PhotoPage";
 
 export default async function Page({ params }) {
   const id = (await params).id;
-  const fetchedPhotoById = await getPhotoById(id);
+  let fetchedPhotoById;
 
-  return <PhotoPage photo={fetchedPhotoById} />;
+  try {
+    fetchedPhotoById = await getPhotoById(id);
+    return <PhotoPage photo={fetchedPhotoById} />;
+  } catch (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-5xl">
+        Not Found
+      </div>
+    );
+  }
 }
