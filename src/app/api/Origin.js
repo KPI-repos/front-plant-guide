@@ -12,6 +12,13 @@ export const getOriginById = async (id) => {
   return response.data;
 };
 
+export const getOriginByPlantId = async (plantId) => {
+  const response = await client.get("/api/Origin/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addOrigin = async (originData) => {
   const response = await client.post("/api/Origin/add", originData);
   return response.data;

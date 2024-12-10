@@ -12,6 +12,13 @@ export const getFamilyById = async (id) => {
   return response.data;
 };
 
+export const getFamilyByPlantId = async (plantId) => {
+  const response = await client.get("/api/Family/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addFamily = async (familyData) => {
   const response = await client.post("/api/Family/add", familyData);
   return response.data;

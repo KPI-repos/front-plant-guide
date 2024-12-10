@@ -12,6 +12,13 @@ export const getPhotoById = async (id) => {
   return response.data;
 };
 
+export const getPhotoByPlantId = async (plantId) => {
+  const response = await client.get("/api/Photo/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addPhoto = async (photoData) => {
   const response = await client.post("/api/Photo/add", photoData);
   return response.data;

@@ -1,5 +1,12 @@
 import { client } from "./instance";
 
+export const getFloweringSeasonPlantByPlantId = async (plantId) => {
+  const response = await client.get("/api/FloweringSeasonPlant/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const getAllFloweringSeasonPlants = async () => {
   const response = await client.get("/api/FloweringSeasonPlant/GetAll");
   return response.data;

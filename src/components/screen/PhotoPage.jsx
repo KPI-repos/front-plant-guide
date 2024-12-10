@@ -33,8 +33,8 @@ const PhotoPage = ({ photo }) => {
       <div className="max-w-[600px] m-auto mb-4 p-4 border rounded-lg shadow-md bg-white">
         <div className="flex gap-10 items-center">
           <Image
-            src={photo.url || "/placeholder.jpg"}
-            alt={photo.plant.commonName || "Photo Image"}
+            src={photo?.url || "/placeholder.jpg"}
+            alt={"Photo Image"}
             width={400}
             height={300}
             className="object-cover w-60 h-60 rounded-lg"
@@ -42,9 +42,9 @@ const PhotoPage = ({ photo }) => {
           />
           <div className="mt-2 ">
             <h2 className="text-xl font-semibold text-gray-800">
-              {photo.plant.commonName}
+              {photo?.plant?.commonName}
             </h2>
-            <p className="text-gray-600">{photo.plant.description}</p>
+            <p className="text-gray-600">{photo?.plant?.description}</p>
             {/* Added author display */}
           </div>
         </div>

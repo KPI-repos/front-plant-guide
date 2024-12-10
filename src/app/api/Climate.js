@@ -12,6 +12,13 @@ export const getClimateById = async (id) => {
   return response.data;
 };
 
+export const getClimateByPlantId = async (plantId) => {
+  const response = await client.get("/api/Climate/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addClimate = async (climateData) => {
   const response = await client.post("/api/Climate/add", climateData);
   return response.data;

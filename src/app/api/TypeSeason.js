@@ -12,6 +12,13 @@ export const getTypeSeasonById = async (id) => {
   return response.data;
 };
 
+export const getTypeSeasonByPlantId = async (plantId) => {
+  const response = await client.get("/api/TypeSeason/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addTypeSeason = async (typeSeasonData) => {
   const response = await client.post("/api/TypeSeason/add", typeSeasonData);
   return response.data;

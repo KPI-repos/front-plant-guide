@@ -12,6 +12,13 @@ export const getCountryById = async (id) => {
   return response.data;
 };
 
+export const getCountryByPlantId = async (plantId) => {
+  const response = await client.get("/api/Country/GetByPlantId", {
+    params: { plantId },
+  });
+  return response.data;
+};
+
 export const addCountry = async (countryData) => {
   const response = await client.post("/api/Country/add", countryData);
   return response.data;
